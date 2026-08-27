@@ -1,28 +1,31 @@
-AWS Sales Data Pipeline
+# AWS Sales Data Pipeline
 
-"AWS" (https://img.shields.io/badge/AWS-Cloud-FF9900?style=flat&logo=amazonaws&logoColor=white)
-"Python" (https://img.shields.io/badge/Python-3.12-3776AB?style=flat&logo=python&logoColor=white)
-"Amazon S3" (https://img.shields.io/badge/Amazon_S3-Storage-569A31?style=flat&logo=amazons3&logoColor=white)
-"AWS Lambda" (https://img.shields.io/badge/AWS_Lambda-Serverless-FF9900?style=flat&logo=awslambda&logoColor=white)
-"Amazon RDS" (https://img.shields.io/badge/Amazon_RDS-MySQL-527FFF?style=flat&logo=amazonrds&logoColor=white)
-"Amazon SNS" (https://img.shields.io/badge/Amazon_SNS-Notifications-FF4F8B?style=flat&logo=amazonsns&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-Cloud-FF9900?style=flat&logo=amazonaws&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.12-3776AB?style=flat&logo=python&logoColor=white)
+![Amazon S3](https://img.shields.io/badge/Amazon_S3-Storage-569A31?style=flat&logo=amazons3&logoColor=white)
+![AWS Lambda](https://img.shields.io/badge/AWS_Lambda-Serverless-FF9900?style=flat&logo=awslambda&logoColor=white)
+![Amazon RDS](https://img.shields.io/badge/Amazon_RDS-MySQL-527FFF?style=flat&logo=amazonrds&logoColor=white)
+![Amazon SNS](https://img.shields.io/badge/Amazon_SNS-Notifications-FF4F8B?style=flat&logo=amazonsns&logoColor=white)
 
-Project Overview
+## Project Overview
 
-The AWS Sales Data Pipeline is a cloud-based data engineering project that processes online retail sales data using AWS services.
+The **AWS Sales Data Pipeline** is a cloud-based data engineering project that processes online retail sales data using AWS services.
 
 The pipeline ingests raw sales data, validates and separates records into valid and rejected datasets, stores accepted records in Amazon RDS, sends pipeline notifications through Amazon SNS, and presents business insights through a Sales KPI Dashboard.
 
-Business Problem
+## Business Problem
 
 Businesses need reliable ways to process large volumes of sales data while identifying invalid records and making sales information available for analysis.
 
-Manual processing can be time-consuming and may make it difficult to maintain organized data and generate timely business insights.
+Manual processing can be time-consuming and may make it difficult to maintain organized data, identify invalid records, and generate timely business insights.
 
-Proposed Solution
+## Proposed Solution
 
-A serverless AWS data pipeline was implemented to automate the main stages of sales data processing:
+A serverless AWS data pipeline was implemented to automate the main stages of sales data processing.
 
+### Pipeline Flow
+
+```text
 Raw Sales CSV
      │
      ▼
@@ -46,29 +49,31 @@ Raw Sales CSV
 
                      AWS Lambda ─────► Amazon SNS
                                       Completion Alert
+```
 
-Architecture
+## Architecture
 
-The detailed AWS architecture diagram illustrates the flow of data between the storage, processing, database, notification, and visualization components.
+The architecture illustrates the flow of sales data between the storage, processing, database, notification, and visualization components of the solution.
 
-Architecture diagram: "architecture/aws-sales-data-pipeline-architecture.png"
+The detailed AWS architecture diagram will be included in the repository as:
 
-«The architecture diagram will be added to the repository as part of the project documentation.»
+`architecture/aws-sales-data-pipeline-architecture.png`
 
-AWS Services Used
+## AWS Services Used
 
-Service| Role in the Pipeline
-Amazon S3| Stores raw, valid, and rejected sales data
-AWS Lambda| Performs serverless data validation and processing
-Amazon RDS| Stores accepted sales records in MySQL
-Amazon SNS| Sends pipeline completion and alert notifications
-AWS IAM| Manages access and permissions for AWS resources
+| Service | Role in the Pipeline |
+|---|---|
+| **Amazon S3** | Stores raw, valid, and rejected sales data |
+| **AWS Lambda** | Performs serverless data validation and processing |
+| **Amazon RDS** | Stores accepted sales records in MySQL |
+| **Amazon SNS** | Sends pipeline completion and alert notifications |
+| **AWS IAM** | Manages access and permissions for AWS resources |
 
-Dataset
+## Dataset
 
-The project uses the Online Retail Dataset, containing transactional sales records from a UK-based online retailer.
+The project uses the **Online Retail Dataset**, containing transactional sales records from a UK-based online retailer.
 
-Key fields include:
+### Key Fields
 
 - Invoice number
 - Stock code
@@ -79,20 +84,25 @@ Key fields include:
 - Customer ID
 - Country
 
-Revenue calculation:
+### Revenue Calculation
 
-"Revenue = Quantity × UnitPrice"
+```text
+Revenue = Quantity × UnitPrice
+```
 
-Pipeline Results
+## Pipeline Results
 
-The pipeline processed 50,000 sales records.
+The pipeline processed **50,000 sales records**.
 
-Result| Records| Percentage
-Valid / Accepted| 30,315| 60.6%
-Rejected| 19,685| 39.4%
-Total| 50,000| 100%
+| Result | Records | Percentage |
+|---|---:|---:|
+| Valid / Accepted | **30,315** | **60.6%** |
+| Rejected | **19,685** | **39.4%** |
+| Total | **50,000** | **100%** |
 
-Validation rules included checks for:
+### Validation Rules
+
+Records were rejected when they contained:
 
 - Missing required values
 - Zero or negative quantities
@@ -100,11 +110,11 @@ Validation rules included checks for:
 
 Accepted records were stored in Amazon RDS, while rejected records were retained separately for review.
 
-Sales KPI Dashboard
+## Sales KPI Dashboard
 
-A Sales KPI Dashboard was created using the accepted pipeline data.
+A **Sales KPI Dashboard** was created using the accepted pipeline data.
 
-Dashboard: "visualizations/dashboard.html"
+**Dashboard:** `visualizations/dashboard.html`
 
 The dashboard presents:
 
@@ -118,8 +128,9 @@ The dashboard presents:
 
 The dashboard provides a visual summary of the processed sales data and supports business-focused analysis.
 
-Repository Structure
+## Repository Structure
 
+```text
 aws-sales-data-pipeline/
 │
 ├── data/
@@ -132,8 +143,9 @@ aws-sales-data-pipeline/
 │
 ├── LICENSE
 └── README.md
+```
 
-Key Benefits
+## Key Benefits
 
 - Automates sales data processing and validation
 - Separates valid and rejected records
@@ -143,7 +155,7 @@ Key Benefits
 - Provides pipeline notifications through Amazon SNS
 - Converts processed data into useful business visualizations
 
-Key Learning Outcomes
+## Key Learning Outcomes
 
 This project provided hands-on experience with:
 
@@ -158,14 +170,15 @@ This project provided hands-on experience with:
 - Data visualization
 - GitHub project documentation
 
-Author
+## Author
 
-Faith Ogundusi
+**Faith Ogundusi**
 
-Data Engineer | AWS Cloud | Building Data Pipelines & Scalable Data Solutions
+*Data Engineer | AWS Cloud | Building Data Pipelines & Scalable Data Solutions*
 
-"LinkedIn" (https://www.linkedin.com/in/faith-ogundusi) · "GitHub" (https://github.com/faith-ogundusi)
+[LinkedIn](https://www.linkedin.com/in/faith-ogundusi) · [GitHub](https://github.com/faith-ogundusi)
 
 ---
 
-Project Repository: "github.com/faith-ogundusi/aws-sales-data-pipeline" (https://github.com/faith-ogundusi/aws-sales-data-pipeline)
+**Project Repository:**  
+[aws-sales-data-pipeline](https://github.com/faith-ogundusi/aws-sales-data-pipeline)
