@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>AWS Sales KPI Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Segoe UI',sans-serif; background:#0f1117; color:#e0e0e0; }
+  header { background:linear-gradient(135deg,#1a1f2e,#232b3e); padding:24px 32px; border-bottom:1px solid #2a3a5c; display:flex; align-items:center; gap:16px; }
+  header h1 { font-size:1.6rem; color:#fff; }
+  header span { font-size:0.85rem; color:#7a8aaa; margin-top:4px; display:block; }
+  .badge { background:#ff9900; color:#000; font-size:0.7rem; font-weight:700; padding:3px 10px; border-radius:12px; }
+  .kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; padding:24px 32px; }
+  .kpi-card { background:#1a1f2e; border:1px solid #2a3a5c; border-radius:12px; padding:20px; text-align:center; transition:transform .2s; }
+  .kpi-card:hover { transform:translateY(-3px); border-color:#ff9900; }
+  .kpi-card .icon { font-size:1.8rem; margin-bottom:8px; }
+  .kpi-card .value { font-size:1.7rem; font-weight:700; color:#ff9900; }
+  .kpi-card .label { font-size:0.78rem; color:#7a8aaa; margin-top:4px; text-transform:uppercase; letter-spacing:.5px; }
+  .charts-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(480px,1fr)); gap:20px; padding:0 32px 24px; }
+  .chart-card { background:#1a1f2e; border:1px solid #2a3a5c; border-radius:12px; padding:20px; }
+  .chart-card h3 { font-size:0.95rem; color:#c0cce0; margin-bottom:16px; border-bottom:1px solid #2a3a5c; padding-bottom:10px; }
+  .table-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(480px,1fr)); gap:20px; padding:0 32px 32px; }
+  .table-card { background:#1a1f2e; border:1px solid #2a3a5c; border-radius:12px; padding:20px; overflow-x:auto; }
+  .table-card h3 { font-size:0.95rem; color:#c0cce0; margin-bottom:14px; border-bottom:1px solid #2a3a5c; padding-bottom:10px; }
+  table { width:100%; border-collapse:collapse; font-size:0.85rem; }
+  th { background:#232b3e; color:#7a8aaa; text-transform:uppercase; font-size:0.72rem; letter-spacing:.5px; padding:10px 12px; text-align:left; }
+  td { padding:9px 12px; border-bottom:1px solid #1e2535; color:#c0cce0; }
+  tr:hover td { background:#1e2535; }
+  footer { text-align:center; padding:20px; color:#3a4a6a; font-size:0.78rem; border-top:1px solid #1e2535; }
+</style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>&#128200; AWS Sales KPI Dashboard</h1>
+    <span>Online Retail Analytics &nbsp;|&nbsp; Powered by AWS Data Pipeline</span>
+  </div>
+  <div style="margin-left:auto"><span class="badge">LIVE</span></div>
+</header>
+
+<div class="kpi-grid">
+  <div class="kpi-card"><div class="icon">&#128176;</div><div class="value">£1,695,487</div><div class="label">Total Revenue</div></div>
+  <div class="kpi-card"><div class="icon">&#128230;</div><div class="value">1,617</div><div class="label">Total Orders</div></div>
+  <div class="kpi-card"><div class="icon">&#128101;</div><div class="value">1,043</div><div class="label">Unique Customers</div></div>
+  <div class="kpi-card"><div class="icon">&#128218;</div><div class="value">373,640</div><div class="label">Units Sold</div></div>
+  <div class="kpi-card"><div class="icon">&#127758;</div><div class="value">169</div><div class="label">Countries</div></div>
+  <div class="kpi-card"><div class="icon">&#127919;</div><div class="value">£1,048.54</div><div class="label">Avg Order Value</div></div>
+</div>
+
+<div class="charts-grid">
+  <div class="chart-card"><h3>&#128200; Monthly Revenue Trend</h3><canvas id="revenueChart"></canvas></div>
+  <div class="chart-card"><h3>&#128203; Monthly Orders</h3><canvas id="ordersChart"></canvas></div>
+  <div class="chart-card"><h3>&#127758; Top 10 Countries by Revenue</h3><canvas id="countryChart"></canvas></div>
+  <div class="chart-card"><h3>&#127381; Top 10 Products by Revenue</h3><canvas id="prodRevChart"></canvas></div>
+  <div class="chart-card"><h3>&#128230; Top 10 Products by Quantity</h3><canvas id="prodQtyChart"></canvas></div>
+</div>
+
+<div class="table-grid">
+  <div class="table-card">
+    <h3>&#127351; Top 10 Customers</h3>
+    <table><thead><tr><th>Customer ID</th><th>Revenue</th><th>Orders</th><th>Country</th></tr></thead>
+    <tbody><tr><td>2010-12-19 14:58:00</td><td>£36,490.00</td><td>1</td><td>0.42</td></tr><tr><td>2011-01-05 15:09:00</td><td>£35,170.00</td><td>1</td><td>1.25</td></tr><tr><td>2010-12-16 14:35:00</td><td>£31,578.00</td><td>1</td><td>1.25</td></tr><tr><td>2010-12-05 15:40:00</td><td>£31,004.00</td><td>1</td><td>14.95</td></tr><tr><td>2011-01-05 15:56:00</td><td>£30,928.00</td><td>1</td><td>4.95</td></tr><tr><td>2010-12-02 18:25:00</td><td>£30,186.00</td><td>1</td><td>0.42</td></tr><tr><td>2011-01-05 13:37:00</td><td>£30,186.00</td><td>1</td><td>0.42</td></tr><tr><td>2010-12-14 12:59:00</td><td>£28,596.00</td><td>1</td><td>1.25</td></tr><tr><td>18102</td><td>£27,834.61</td><td>4</td><td>United Kingdom</td></tr><tr><td>2011-01-05 11:52:00</td><td>£26,178.00</td><td>1</td><td>0.42</td></tr></tbody></table>
+  </div>
+  <div class="table-card">
+    <h3>&#127758; Top 10 Countries</h3>
+    <table><thead><tr><th>Country</th><th>Revenue</th><th>Orders</th></tr></thead>
+    <tbody><tr><td>United Kingdom</td><td>£585,008.12</td><td>1491</td></tr><tr><td>4.95</td><td>£312,678.00</td><td>20</td></tr><tr><td>0.42</td><td>£207,766.00</td><td>11</td></tr><tr><td>0.85</td><td>£132,602.00</td><td>9</td></tr><tr><td>1.25</td><td>£125,638.00</td><td>5</td></tr><tr><td>6.75</td><td>£74,915.00</td><td>5</td></tr><tr><td>1.65</td><td>£32,822.00</td><td>2</td></tr><tr><td>14.95</td><td>£31,004.00</td><td>1</td></tr><tr><td>6.35</td><td>£28,685.00</td><td>2</td></tr><tr><td>0.36</td><td>£27,814.00</td><td>2</td></tr></tbody></table>
+  </div>
+</div>
+
+<footer>Generated from AWS Sales Data Pipeline &nbsp;|&nbsp; 1,617 orders &nbsp;|&nbsp; 1,043 customers &nbsp;|&nbsp; 169 countries</footer>
+
+<script>
+const chartDefaults = { responsive:true, plugins:{ legend:{ display:false }, tooltip:{ callbacks:{ label: ctx => ' ' + ctx.parsed.y?.toLocaleString() } } }, scales:{ x:{ ticks:{ color:'#7a8aaa', maxRotation:45 }, grid:{ color:'#1e2535' } }, y:{ ticks:{ color:'#7a8aaa' }, grid:{ color:'#1e2535' } } } };
+
+new Chart(document.getElementById('revenueChart'), { type:'line', data:{ labels:[" DOUGHN", " IVORY", " LOVEHE", " METAL", " MINT", "1", "10", "108", "12", "120", "16", "19", "2", "20", "2010-12", "2011-01", "22", "24", "25", "3", "4", "40", "48", "5", "6", "72", "8", "96", "C PAINT", "MAGIC G", "SUGAR", "SUGAR J", "Unknown"], datasets:[{ data:[18245.0, 15502.0, 15658.0, 32822.0, 15502.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 563891.38, 110876.46, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 74915.0, 146900.0, 329517.0, 154323.0, 217335.0], borderColor:'#ff9900', backgroundColor:'rgba(255,153,0,0.1)', fill:true, tension:0.4, pointBackgroundColor:'#ff9900' }] }, options:{...chartDefaults, plugins:{...chartDefaults.plugins, tooltip:{ callbacks:{ label: ctx => ' £' + ctx.parsed.y.toLocaleString() } } } } });
+
+new Chart(document.getElementById('ordersChart'), { type:'bar', data:{ labels:[" DOUGHN", " IVORY", " LOVEHE", " METAL", " MINT", "1", "10", "108", "12", "120", "16", "19", "2", "20", "2010-12", "2011-01", "22", "24", "25", "3", "4", "40", "48", "5", "6", "72", "8", "96", "C PAINT", "MAGIC G", "SUGAR", "SUGAR J", "Unknown"], datasets:[{ data:[1, 1, 1, 2, 1, 31, 1, 1, 47, 1, 1, 1, 15, 12, 1399, 217, 1, 18, 9, 10, 5, 1, 1, 2, 12, 1, 1, 2, 5, 10, 21, 7, 13], backgroundColor:'rgba(99,179,237,0.7)', borderColor:'#63b3ed', borderWidth:1 }] }, options:chartDefaults });
+
+new Chart(document.getElementById('countryChart'), { type:'bar', data:{ labels:["United Kingdom", "4.95", "0.42", "0.85", "1.25", "6.75", "1.65", "14.95", "6.35", "0.36"], datasets:[{ data:[585008.12, 312678.0, 207766.0, 132602.0, 125638.0, 74915.0, 32822.0, 31004.0, 28685.0, 27814.0], backgroundColor:'rgba(255,153,0,0.7)', borderColor:'#ff9900', borderWidth:1 }] }, options:{...chartDefaults, indexAxis:'y', plugins:{...chartDefaults.plugins, tooltip:{ callbacks:{ label: ctx => ' £' + ctx.parsed.x.toLocaleString() } } } } });
+
+new Chart(document.getElementById('prodRevChart'), { type:'bar', data:{ labels:["SET 3 RETROSPOT TEA", "HOOK", "ELEPHANT", "BLACK TEA", "WHITE TEA", "DECOUPAGE", "NURSERY A", "DECORATION", "BREAD BIN", "REGENCY CAKESTAND 3 TIER"], datasets:[{ data:[329517.0, 146900.0, 141933.0, 78452.0, 75871.0, 75402.0, 74915.0, 32822.0, 31004.0, 20155.65], backgroundColor:'rgba(154,205,50,0.7)', borderColor:'#9acd32', borderWidth:1 }] }, options:{...chartDefaults, indexAxis:'y', plugins:{...chartDefaults.plugins, tooltip:{ callbacks:{ label: ctx => ' £' + ctx.parsed.x.toLocaleString() } } } } });
+
+new Chart(document.getElementById('prodQtyChart'), { type:'bar', data:{ labels:["WORLD WAR 2 GLIDERS ASSTD DESIGNS", "WHITE HANGING HEART T-LIGHT HOLDER", "PACK OF 72 RETROSPOT CAKE CASES", "HAND WARMER BABUSHKA DESIGN", "JUMBO BAG RED RETROSPOT", "MINI PAINT SET VINTAGE", "SMALL POPCORN HOLDER", "PACK OF 12 LONDON TISSUES", "ASSORTED COLOUR BIRD ORNAMENT", "GROW A FLYTRAP OR SUNFLOWER IN TIN"], datasets:[{ data:[5763, 4558, 3888, 3657, 3423, 3348, 2894, 2761, 2718, 2664], backgroundColor:'rgba(147,112,219,0.7)', borderColor:'#9370db', borderWidth:1 }] }, options:{...chartDefaults, indexAxis:'y' } });
+</script>
+</body>
+</html>
