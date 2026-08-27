@@ -57,7 +57,7 @@ The architecture illustrates the flow of sales data between the storage, process
 
 The detailed AWS architecture diagram will be included in the repository as:
 
-`architecture/aws-sales-data-pipeline-architecture.png`
+![AWS Sales Data Pipeline Architecture](architecture/architecture.png)
 
 ## AWS Services Used
 
